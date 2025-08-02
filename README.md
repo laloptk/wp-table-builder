@@ -91,6 +91,41 @@ register_activation_hook(__FILE__, function () {
 
 ---
 
+
+---
+
+## 🔄 What gets updated
+
+When using `createOrUpdate()` with a version string, the builder will automatically:
+
+- ✅ Add new **columns**
+- ✅ Add new **indexes**
+- ✅ Add new **foreign key constraints**
+
+But it will **NOT**:
+
+- ❌ Drop or rename existing columns
+- ❌ Modify column types or definitions
+- ❌ Remove or rename indexes or foreign keys
+- ❌ Handle complex data migrations or content changes
+
+If you need those, consider combining `TableBuilder` with your own versioned migration callbacks.
+
+Example strategy:
+
+```php
+$migrations = [
+    '1.2.0' => function () {
+        // Populate new column or clean up old data
+    },
+    '1.3.0' => function () {
+        // Drop old column or restructure
+    },
+];
+```
+
+You can run these after `createOrUpdate()` to maintain full control.
+
 ## 📋 License
 
 MIT — free to use and modify. No warranty.
@@ -99,4 +134,4 @@ MIT — free to use and modify. No warranty.
 
 ## ✍️ Author
 
-Originally crafted by [Eduardo](https://eduardos-portfolio.netlify.app/) with the help of ChatGPT to fill a real-world need in WordPress plugin development.
+Originally crafted by [Eduardo Sanchez Hidalgo](https://eduardos-portfolio.netlify.app/) with the help of ChatGPT to fill a real-world need in WordPress plugin development.
